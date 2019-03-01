@@ -10,36 +10,31 @@ const fetchImage = async () => {
   }
 }
 
-const compressImgRender = (file: Blob) => {
-  const reader = new FileReader()
-  reader.readAsDataURL(file)
-  let compressImg: HTMLImageElement = document.createElement('img')
-  reader.onload = (e: ProgressEvent) => {
-    if (e.target) {
-      compressImg.src = (e.target as any).result
+const compressImgRender = async (file: Blob, option: any) => {
+  try {
+    let compressImg: HTMLImageElement = document.createElement('img')
+    compressImg.src = await imageCompress(file, option)
+    const app = document.getElementById('app')
+    if (app) {
+      app.appendChild(compressImg)
     }
+  } catch (err) {
+    throw err
   }
-  document.body.appendChild(compressImg)
 }
 
 const render = async () => {
   try {
     const orgImgData: Blob | undefined = await fetchImage()
-    let orgImg: HTMLImageElement = document.createElement('img')
     if (orgImgData) {
-      // orgImg.src = originalImage
-      const reader = new FileReader()
-      reader.onload = (e: ProgressEvent) => {
-        if (e.target) {
-          orgImg.src = (e.target as any).result
-        }
-      }
-      reader.readAsDataURL(orgImgData)
-      document.body.appendChild(orgImg)
-
-      imageCompress(orgImgData, compressImgRender as any, {
-        quality: 0.01
-      })
+      compressImgRender(orgImgData, { quality: 1 })
+      compressImgRender(orgImgData, { quality: 0.5 })
+      compressImgRender(orgImgData, { quality: 0.1 })
+      compressImgRender(orgImgData, { quality: 0.05 })
+      compressImgRender(orgImgData, { quality: 0.02 })
+      compressImgRender(orgImgData, { quality: 0.01 })
+      compressImgRender(orgImgData, { quality: 0.001 })
+      compressImgRender(orgImgData, { quality: 0.0001 })
     }
   } catch (err) {
     console.log(err)
