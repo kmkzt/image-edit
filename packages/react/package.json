@@ -1,5 +1,5 @@
 {
-  "name": "react-ts-library-boilerplate",
+  "name": "editimagejs-react",
   "version": "0.1.0",
   "private": true,
   "author": "kamei-kazuto",
@@ -26,8 +26,6 @@
     "dev": "NODE_ENV=development webpack-dev-server",
     "build": "rm -r lib && NODE_ENV=production webpack -p",
     "test": "jest",
-    "lint": "tslint --fix .src/**/*.{ts,tsx}",
-    "lint:config": "tslint-config-prettier-check ./tslint.json",
     "lint:fix": "prettier --write ./src/**/*.{ts,tsx}"
   },
   "devDependencies": {
