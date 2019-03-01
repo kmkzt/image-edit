@@ -1,0 +1,37 @@
+{
+  "extends": ["config:base"],
+  "timezone": "Asia/Tokyo",
+  "labels": ["renovate"],
+  "patch": { "automerge": true },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 3am on the first day of the month"]
+  },
+  "ignoreDeps": ["^@types/node"],
+  "packageRules": [
+    {
+      "groupName": "React package",
+      "packagePatterns": ["^react", "^@types/react"]
+    },
+    {
+      "groupName": "Unit test package",
+      "packagePatterns": ["^jest", "^enzyme", "^@types/jest", "^@types/jest"]
+    },
+    {
+      "groupName": "eslint library",
+      "packagePatterns": ["^eslint-", "^@typescript-eslint"]
+    },
+    {
+      "groupName": "apollo package",
+      "packagePatterns": ["^apollo", "^@types/apollo"]
+    },
+    {
+      "groupName": "webpack/bable library",
+      "packagePatterns": ["^webpack", "^@babel"]
+    },
+    {
+      "groupName": "typescript library",
+      "packagePatterns": ["^typescript", "^ts", "@types"]
+    }
+  ]
+}

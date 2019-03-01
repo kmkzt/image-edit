@@ -1,0 +1,17 @@
+{
+  "name": "ts-boilerplate",
+  "version": "0.1.0",
+  "private": true,
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "dev": "NODE_ENV=development webpack-dev-server",
+    "build": "rm -r lib && NODE_ENV=production webpack -p",
+    "sample": "webpack-dev-server server.js",
+    "test": "jest"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "compressorjs": "^1.0.5"
+  }
+}
