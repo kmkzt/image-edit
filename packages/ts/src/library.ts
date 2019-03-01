@@ -1,9 +1,12 @@
 import Compressor from 'compressorjs'
-import { Options } from 'compressorjs/types'
 type ExcludeKey<T, K extends keyof T> = Pick<
   T,
   Exclude<keyof T, keyof Pick<T, K>>
 >
+
+type Options = ExcludeKey<Compressor.Options, 'success' | 'error'>
+type SuccessAction = Compressor.Options['success']
+type ErrorAction = Compressor.Options['error']
 
 const defaultOptions: Options = {
   strict: true,
@@ -20,10 +23,10 @@ const defaultOptions: Options = {
 }
 export async function imageCompress(
   file: File | Blob,
-  options: ExcludeKey<Compressor.Options, 'success'> = defaultOptions
+  options: Options = defaultOptions
 ): Promise<string> {
   return new Promise((resolve, reject) => {
-    const success = (file: Blob) => {
+    const success: SuccessAction = (file: Blob) => {
       const reader = new FileReader()
       reader.readAsDataURL(file)
       reader.onload = (e: ProgressEvent) => {
@@ -32,7 +35,7 @@ export async function imageCompress(
         }
       }
     }
-    const error = (err: Error) => {
+    const error: ErrorAction = (err: Error) => {
       reject(err)
     }
     new Compressor(file, {
