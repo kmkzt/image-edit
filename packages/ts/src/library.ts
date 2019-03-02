@@ -4,24 +4,23 @@ type ExcludeKey<T, K extends keyof T> = Pick<
   Exclude<keyof T, keyof Pick<T, K>>
 >
 
-type Options = ExcludeKey<Compressor.Options, 'success' | 'error'>
+export type Options = ExcludeKey<Compressor.Options, 'success' | 'error'>
 
-const defaultOptions: Options = {
-  strict: true,
-  checkOrientation: true,
-  maxWidth: undefined,
-  maxHeight: undefined,
-  minWidth: 0,
-  minHeight: 0,
-  width: undefined,
-  height: undefined,
-  quality: 0.7,
-  mimeType: '',
-  convertSize: 200000
-}
 export async function imageCompress(
   file: File | Blob,
-  options: Options = defaultOptions
+  options: Options = {
+    strict: true,
+    checkOrientation: true,
+    maxWidth: undefined,
+    maxHeight: undefined,
+    minWidth: 0,
+    minHeight: 0,
+    width: undefined,
+    height: undefined,
+    quality: 0.7,
+    mimeType: '',
+    convertSize: 200000
+  }
 ): Promise<string> {
   return new Promise(
     (resolve, reject) =>
