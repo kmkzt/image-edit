@@ -19,7 +19,7 @@ const defaultOptions: Options = {
   height: undefined,
   quality: 0.7,
   mimeType: '',
-  convertSize: 2000000
+  convertSize: 200000
 }
 export async function imageCompress(
   file: File | Blob,
