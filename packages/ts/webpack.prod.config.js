@@ -1,4 +1,4 @@
-const { join, resolve } = require('path')
+const { resolve } = require('path')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 

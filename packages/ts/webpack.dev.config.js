@@ -4,7 +4,7 @@ const Dotenv = require('dotenv-webpack')
 
 const config = {
   mode: 'development',
-  entry: resolve(__dirname, 'src/index.ts'),
+  entry: resolve(__dirname, 'src/example/index.ts'),
   output: {
     filename: '[name].bundle.js',
     path: resolve('public')
@@ -12,7 +12,7 @@ const config = {
   devtool: 'source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      template: resolve('template.html'),
+      template: resolve(__dirname, 'template.html')
     }),
     new Dotenv({
       path: 'development.env',
@@ -23,7 +23,7 @@ const config = {
     contentBase: join(__dirname, 'public'),
     compress: true,
     port: 9000
-  },
-};
+  }
+}
 
 module.exports = config
