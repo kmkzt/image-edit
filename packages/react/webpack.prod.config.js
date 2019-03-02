@@ -3,13 +3,13 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 
 const config = {
-  entry: resolve('src', 'library.tsx'),
+  entry: resolve(__dirname, '/src/library.tsx'),
   devtool: false,
 
   output: {
     filename: 'index.min.js',
     path: resolve('lib'),
-    library: 'samplelibrary-reactts',
+    library: 'editimage-react',
     libraryTarget: 'umd'
   },
 
