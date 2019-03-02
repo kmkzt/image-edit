@@ -5,8 +5,6 @@ type ExcludeKey<T, K extends keyof T> = Pick<
 >
 
 type Options = ExcludeKey<Compressor.Options, 'success' | 'error'>
-type SuccessAction = Compressor.Options['success']
-type ErrorAction = Compressor.Options['error']
 
 const defaultOptions: Options = {
   strict: true,
@@ -25,23 +23,22 @@ export async function imageCompress(
   file: File | Blob,
   options: Options = defaultOptions
 ): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const success: SuccessAction = (file: Blob) => {
-      const reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onload = (e: ProgressEvent) => {
-        if (e.target) {
-          resolve((e.target as any).result)
+  return new Promise(
+    (resolve, reject) =>
+      new Compressor(file, {
+        ...options,
+        success: (file: Blob) => {
+          const reader = new FileReader()
+          reader.readAsDataURL(file)
+          reader.onload = (e: ProgressEvent) => {
+            if (e.target) {
+              resolve((e.target as any).result)
+            }
+          }
+        },
+        error: (err: Error) => {
+          reject(err)
         }
-      }
-    }
-    const error: ErrorAction = (err: Error) => {
-      reject(err)
-    }
-    new Compressor(file, {
-      ...options,
-      success,
-      error
-    })
-  })
+      })
+  )
 }

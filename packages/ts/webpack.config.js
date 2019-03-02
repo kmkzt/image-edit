@@ -1,7 +1,6 @@
-`use strict`
-
 const { resolve } = require('path')
 const { smart } = require('webpack-merge')
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 const devMode = process.env.NODE_ENV === 'development'
 const config = devMode
   ? require('./webpack.dev.config')
@@ -53,7 +52,15 @@ const common = {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
     alias: {
       '@': resolve(__dirname, 'src')
-    }
+    },
+    plugins: [
+      new TsconfigPathsPlugin({
+        configFile: resolve(
+          __dirname,
+          devMode ? 'tsconfig.json' : 'tsconfig.prod.json'
+        )
+      })
+    ]
   }
 }
 
