@@ -8,7 +8,7 @@ const config = {
   output: {
     filename: 'index.min.js',
     path: resolve('lib'),
-    library: 'editimagejs',
+    library: 'image-edit',
     libraryTarget: 'umd'
   },
   devtool: false,
