@@ -1,5 +1,5 @@
 {
-  "name": "edit-image",
+  "name": "image-edit",
   "version": "0.1.0",
   "description": "",
   "main": "lib/index.min.js",
