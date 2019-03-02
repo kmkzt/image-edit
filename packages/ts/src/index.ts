@@ -27,14 +27,9 @@ const render = async () => {
   try {
     const orgImgData: Blob | undefined = await fetchImage()
     if (orgImgData) {
-      compressImgRender(orgImgData, { quality: 1 })
-      compressImgRender(orgImgData, { quality: 0.5 })
-      compressImgRender(orgImgData, { quality: 0.1 })
-      compressImgRender(orgImgData, { quality: 0.05 })
-      compressImgRender(orgImgData, { quality: 0.02 })
-      compressImgRender(orgImgData, { quality: 0.01 })
-      compressImgRender(orgImgData, { quality: 0.001 })
-      compressImgRender(orgImgData, { quality: 0.0001 })
+      compressImgRender(orgImgData, { quality: 1, convertSize: 1000 })
+      compressImgRender(orgImgData, { quality: 0.5, convertSize: 1000 })
+      compressImgRender(orgImgData, { quality: 0.3, convertSize: 1000 })
     }
   } catch (err) {
     console.log(err)

@@ -1,15 +1,15 @@
 const { join, resolve } = require('path')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 
 const config = {
   mode: 'production',
-  entry: resolve('src', 'library.ts'),
+  entry: resolve(__dirname, 'src/index.ts'),
   output: {
     filename: 'index.min.js',
     path: resolve('lib'),
-    library: "samplelibrary-es",
-    libraryTarget: "umd"
+    library: 'editimagejs',
+    libraryTarget: 'umd'
   },
   devtool: false,
   // 依存ライブラリの設定(使用先で必要なライブラリ)
@@ -27,6 +27,6 @@ const config = {
       })
     ]
   }
-};
+}
 
 module.exports = config
