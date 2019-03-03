@@ -6,7 +6,7 @@ type ExcludeKey<T, K extends keyof T> = Pick<
 
 export type Options = ExcludeKey<Compressor.Options, 'success' | 'error'>
 
-export async function imageCompress(
+async function imageConvert(
   file: File | Blob,
   options: Options = {
     strict: true,
@@ -41,3 +41,5 @@ export async function imageCompress(
       })
   )
 }
+
+export default imageConvert

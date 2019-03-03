@@ -11,11 +11,11 @@ yarn add image-edit
 ## Usage
 
 ```javascript
-import { imageCompress } from 'image-edit'
+import imageConvert from 'image-edit'
 
 const res = await fetch('./sample.jpg')
 const file = await res.blob()
-const compImg = imageCompress(file, { quality: 0.7 })
+const compImg = imageConvert(file, { quality: 0.7 })
 ```
 
 ## Uses
