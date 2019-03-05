@@ -1,17 +1,18 @@
 import { resolve } from 'url'
 
 interface Option {
-  strict?: true
-  checkOrientation?: true
-  maxWidth?: undefined
-  maxHeight?: undefined
-  minWidth?: 0
-  minHeight?: 0
+  fillStyle: string
+  rotate: number
+  scaleX: number
+  scaleY: number
   width?: number
   height?: number
-  quality?: 0.7
-  mimeType?: ''
-  convertSize?: 200000
+  maxWidth: number
+  maxHeight: number
+  minWidth: number
+  minHeight: number
+  quality: number
+  mimeType: string
 }
 
 interface FileInfo {
@@ -30,10 +31,8 @@ interface DrawParam {
   rotate?: number
 }
 interface DrawCanvasSize {
-  width: number
-  height: number
-  imageWidth: number
-  imageHeight: number
+  canvasWidth: number
+  canvasHeight: number
 }
 
 const createObjectURL = (file: File | Blob): string | null =>
@@ -42,7 +41,7 @@ const createObjectURL = (file: File | Blob): string | null =>
 const revokeObjectURL = (src: string) =>
   window.URL ? window.URL.revokeObjectURL(src) : null
 
-async function loadImage(file: FileInfo): Promise<HTMLImageElement> {
+export async function loadImage(file: FileInfo): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const image: HTMLImageElement = new Image()
     image.onload = () => {
@@ -59,7 +58,7 @@ async function loadImage(file: FileInfo): Promise<HTMLImageElement> {
   })
 }
 
-async function loadFile(file: File, cancel?: any): Promise<FileInfo> {
+export async function loadFile(file: File, cancel?: any): Promise<FileInfo> {
   return new Promise((resolve, reject) => {
     let reader: FileReader | null = new FileReader()
     if (reader) {
@@ -86,18 +85,22 @@ async function loadFile(file: File, cancel?: any): Promise<FileInfo> {
   })
 }
 
-async function createBlob(
+export async function createBlob(
   image: HTMLImageElement,
   {
     fillStyle = 'transparent',
     rotate = 0,
-    x = 0,
-    y = 0,
     scaleX = 1,
     scaleY = 1,
+    width: w,
+    height: h,
+    minWidth = 0,
+    minHeight = 0,
+    maxWidth = 0,
+    maxHeight = 0,
     quality = 0.7,
     mimeType = 'image/jpeg'
-  }: any
+  }: Option
 ): Promise<Blob | null> {
   return new Promise((resolve, reject) => {
     const canvas: HTMLCanvasElement = document.createElement('canvas')
@@ -106,36 +109,157 @@ async function createBlob(
       reject(new Error('Not Supported Canvas'))
       return
     }
-    const width = image.naturalWidth
-    const height = image.naturalHeight
-    canvas.width = width
-    canvas.height = height
+    const { canvasWidth: width, canvasHeight: height } = getDrawImageSize({
+      width: w || image.naturalWidth,
+      height: h || image.naturalHeight,
+      minWidth,
+      minHeight,
+      maxWidth,
+      maxHeight
+    })
+
+    const translateX: number = width / 2
+    const translateY: number = height / 2
+    const destX: number = -translateX
+    const destY = -translateY
+    const destWidth = width
+    const destHeight = height
+
+    const canvasW = is90DegreesRotated(rotate) ? height : width
+    const canvasH = is90DegreesRotated(rotate) ? width : height
+
+    canvas.width = canvasW
+    canvas.height = canvasH
+
     context.fillStyle = fillStyle
-    context.fillRect(0, 0, width, height)
+    context.fillRect(0, 0, canvasW, canvasH)
     context.save()
-    context.translate(width / 2, height / 2)
+    context.translate(translateX, translateY)
     context.rotate((rotate * Math.PI) / 180)
     context.scale(scaleX, scaleY)
-    context.drawImage(image, x, y, width, height)
+    context.drawImage(image, destX, destY, destWidth, destHeight)
     context.restore()
-    const blobSuccess = (blob: Blob | null) => resolve(blob)
+    const blobSuccess = (blob: Blob | null) => {
+      revokeObjectURL(image.src)
+      resolve(blob)
+    }
     canvas.toBlob(blobSuccess, mimeType, quality)
   })
 }
 
+const is90DegreesRotated = (rotate: number) => Math.abs(rotate) % 180 === 90
+
+/**
+ * Normalize decimal number.
+ * Check out {@link http://0.30000000000000004.com/}
+ * @param {number} value - The value to normalize.
+ * @param {number} [times=100000000000] - The times for normalizing.
+ * @returns {number} Returns the normalized number.
+ */
+const REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/
+function normalizeDecimalNumber(value: number, times: number = 100000000000) {
+  return REGEXP_DECIMALS.test(String(value))
+    ? Math.round(value * times) / times
+    : value
+}
+
+interface WidthHeight {
+  width: number
+  height: number
+}
 function getDrawImageSize({
-  rotate,
-  width,
-  height,
-  minWidth,
-  minHeight,
-  maxWidth,
-  maxHeight
+  rotate = 0,
+  width: naturalWidth,
+  height: naturalHeight,
+  minWidth = 0,
+  minHeight = 0,
+  maxWidth = Infinity,
+  maxHeight = Infinity
 }: DrawParam): DrawCanvasSize {
+  if (is90DegreesRotated(rotate)) {
+    return getDrawImageSize({
+      width: naturalHeight,
+      height: naturalWidth,
+      minWidth: minHeight,
+      minHeight: minWidth,
+      maxWidth: maxHeight,
+      maxHeight: maxWidth
+    })
+  }
+
+  const aspectRatio: number = naturalWidth / naturalHeight
+
+  const heightLargerThanWidth = (h: number, w: number) => h * aspectRatio > w
+
+  const max: WidthHeight =
+    maxWidth < Infinity && maxHeight < Infinity
+      ? {
+          width: heightLargerThanWidth(maxHeight, maxWidth)
+            ? maxWidth
+            : maxHeight * aspectRatio,
+          height: heightLargerThanWidth(maxHeight, maxWidth)
+            ? maxWidth / aspectRatio
+            : maxHeight
+        }
+      : maxWidth < Infinity
+      ? {
+          width: maxWidth,
+          height: maxWidth / aspectRatio
+        }
+      : maxHeight < Infinity
+      ? {
+          width: maxHeight * aspectRatio,
+          height: maxHeight
+        }
+      : {
+          width: maxWidth,
+          height: maxHeight
+        }
+  const min: WidthHeight =
+    minWidth > 0 && minHeight > 0
+      ? {
+          width: heightLargerThanWidth(minHeight, minWidth)
+            ? minWidth
+            : minHeight * aspectRatio,
+          height: heightLargerThanWidth(minHeight, minWidth)
+            ? minWidth / aspectRatio
+            : minHeight
+        }
+      : minWidth > 0
+      ? {
+          width: minWidth,
+          height: minWidth / aspectRatio
+        }
+      : minHeight > 0
+      ? {
+          width: minHeight * aspectRatio,
+          height: minHeight
+        }
+      : {
+          width: minWidth,
+          height: minHeight
+        }
+
+  const base: WidthHeight = heightLargerThanWidth(naturalHeight, naturalWidth)
+    ? {
+        width: naturalWidth,
+        height: naturalWidth / aspectRatio
+      }
+    : {
+        width: naturalHeight * aspectRatio,
+        height: naturalHeight
+      }
+
   return {
-    width,
-    height,
-    imageWidth: width,
-    imageHeight: height
+    canvasWidth: Math.floor(
+      normalizeDecimalNumber(
+        Math.min(Math.max(base.width, min.width), max.width)
+      )
+    ),
+    canvasHeight: Math.floor(
+      normalizeDecimalNumber(
+        Math.min(Math.max(base.height, min.height), max.height)
+      )
+    )
   }
 }
