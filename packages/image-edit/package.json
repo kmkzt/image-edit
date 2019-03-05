@@ -5,6 +5,7 @@
   "description": "premitive compress image library",
   "keywords": ["compressorjs"],
   "main": "lib/index.min.js",
+  "types": "types/index.d.ts",
   "scripts": {
     "dev": "NODE_ENV=development webpack-dev-server",
     "build": "rimraf lib && NODE_ENV=production webpack -p",

@@ -1,6 +1,5 @@
 const { resolve } = require('path')
 const { smart } = require('webpack-merge')
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 const devMode = process.env.NODE_ENV === 'development'
 const config = devMode
   ? require('./webpack.dev.config')
@@ -28,7 +27,8 @@ const common = {
           {
             loader: 'ts-loader',
             options: {
-              configFile: devMode ? 'tsconfig.json' : 'tsconfig.prod.json'
+              configFile: devMode ? 'tsconfig.json' : 'tsconfig.prod.json',
+              transpileOnly: devMode
             }
           }
         ]
@@ -53,14 +53,7 @@ const common = {
     alias: {
       '@': resolve(__dirname, 'src')
     },
-    plugins: [
-      new TsconfigPathsPlugin({
-        configFile: resolve(
-          __dirname,
-          devMode ? 'tsconfig.json' : 'tsconfig.prod.json'
-        )
-      })
-    ]
+    plugins: []
   }
 }
 
