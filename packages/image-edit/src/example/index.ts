@@ -1,4 +1,4 @@
-import { imageCompress } from '@/library'
+import imageCompress from '@/library'
 
 const fetchImage = async () => {
   try {
