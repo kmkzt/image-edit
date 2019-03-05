@@ -1,7 +1,9 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "outDir": "./lib",
     "declaration": true,
     "declarationDir": "./types"
-  }
+  },
+  "exclude": ["./src/example"]
 }
