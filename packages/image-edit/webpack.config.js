@@ -28,7 +28,7 @@ const common = {
           {
             loader: 'ts-loader',
             options: {
-              transpileOnly: true
+              configFile: devMode ? 'tsconfig.json' : 'tsconfig.prod.json'
             }
           }
         ]
