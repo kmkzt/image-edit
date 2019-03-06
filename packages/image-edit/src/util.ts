@@ -1,5 +1,3 @@
-import { resolve } from 'url'
-
 export interface CreateBlobOption {
   fillStyle: string
   rotate: number
@@ -90,8 +88,8 @@ export async function createBlob(
     height: h,
     minWidth = 0,
     minHeight = 0,
-    maxWidth = 0,
-    maxHeight = 0,
+    maxWidth = Infinity,
+    maxHeight = Infinity,
     quality = 0.7,
     mimeType = 'image/jpeg'
   }: CreateBlobOption
@@ -104,27 +102,24 @@ export async function createBlob(
       return
     }
 
-    // TODO: FIX DrawCanvasSize
-    const width = image.naturalWidth
-    const height = image.naturalHeight
-    // const { canvasWidth: width, canvasHeight: height } = getDrawImageSize({
-    //   width: image.naturalWidth,
-    //   height: image.naturalHeight,
-    //   minWidth,
-    //   minHeight,
-    //   maxWidth,
-    //   maxHeight
-    // })
+    const { canvasWidth: width, canvasHeight: height } = getDrawImageSize({
+      width: image.naturalWidth,
+      height: image.naturalHeight,
+      minWidth,
+      minHeight,
+      maxWidth,
+      maxHeight
+    })
 
-    const translateX: number = width / 2
-    const translateY: number = height / 2
-    const destX: number = -translateX
-    const destY: number = -translateY
     const destWidth: number = width
     const destHeight: number = height
 
     const canvasW = is90DegreesRotated(rotate) ? height : width
     const canvasH = is90DegreesRotated(rotate) ? width : height
+    const translateX: number = canvasW / 2
+    const translateY: number = canvasH / 2
+    const destX: number = is90DegreesRotated(rotate) ? -translateY : -translateX
+    const destY: number = is90DegreesRotated(rotate) ? -translateX : -translateY
 
     canvas.width = canvasW
     canvas.height = canvasH
@@ -155,12 +150,11 @@ const is90DegreesRotated = (rotate: number) => Math.abs(rotate) % 180 === 90
  * @param {number} [times=100000000000] - The times for normalizing.
  * @returns {number} Returns the normalized number.
  */
-const REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/
-function normalizeDecimalNumber(value: number, times: number = 100000000000) {
-  return REGEXP_DECIMALS.test(String(value))
+const REGEXP_DECIMALS: RegExp = /\.\d*(?:0|9){12}\d*$/
+const normalizeDecimalNumber = (value: number, times: number = 100000000000) =>
+  REGEXP_DECIMALS.test(String(value))
     ? Math.round(value * times) / times
     : value
-}
 
 interface WidthHeight {
   width: number
