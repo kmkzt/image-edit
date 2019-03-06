@@ -42,6 +42,8 @@ const render = async () => {
       compressImgRender(orgImgData, { quality: 0.3, width: 600 })
       compressImgRender(orgImgData, { quality: 0.2, width: 600 })
       compressImgRender(orgImgData, { quality: 0.1, width: 600 })
+      compressImgRender(orgImgData, { quality: 0.1, rotate: 30 })
+      compressImgRender(orgImgData, { quality: 0.1, rotate: 90 })
     }
   } catch (err) {
     console.log(err)
