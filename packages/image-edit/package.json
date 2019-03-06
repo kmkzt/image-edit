@@ -1,10 +1,20 @@
 {
   "name": "image-edit",
   "author": "kmkzt",
-  "version": "0.2.0",
+  "version": "0.2.01",
   "description": "easy edit image client library",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kmkzt/image-edit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kmkzt/image-edit/issues"
+  },
   "keywords": [
-    "image-edit"
+    "image-edit",
+    "canvas",
+    "blob",
+    "file"
   ],
   "main": "lib/index.min.js",
   "types": "types/index.d.ts",
