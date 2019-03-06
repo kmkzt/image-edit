@@ -2,7 +2,7 @@
   "name": "image-edit",
   "author": "kmkzt",
   "version": "0.2.0",
-  "description": "premitive compress image library",
+  "description": "easy edit image client library",
   "keywords": [
     "image-edit"
   ],
