@@ -58,33 +58,24 @@ export async function loadImage(file: FileInfo): Promise<HTMLImageElement> {
   })
 }
 
-export async function loadFile(
-  file: File | Blob,
-  cancel?: any
-): Promise<FileInfo> {
+export async function loadFile(file: File | Blob): Promise<FileInfo> {
   return new Promise((resolve, reject) => {
     let reader: FileReader | null = new FileReader()
-    if (reader) {
-      reader.onload = (e: ProgressEvent) => {
-        const mimeType: string = file.type
-        const url: string =
-          file.type === 'image/jpeg'
-            ? createObjectURL(file)
-            : (e.target as any).result
-        resolve({
-          name: (file as File).name || new Date().toISOString(),
-          url,
-          mimeType
-        })
-      }
-      reader.onabort = () =>
-        reject(new Error('Aborted to read the image with FileReader.'))
-      reader.onerror = () =>
-        reject(new Error('Failed to read the image with FileReader.'))
-      reader.onloadend = () => (reader = null)
-    } else {
-      reject(new Error('Failed to read the image with FileReader.'))
+    reader.readAsDataURL(file)
+    reader.onload = (e: ProgressEvent) => {
+      const mimeType: string = file.type
+      const url: string = (e.target as any).result
+      resolve({
+        name: (file as File).name || new Date().toISOString(),
+        url,
+        mimeType
+      })
     }
+    reader.onabort = () =>
+      reject(new Error('Aborted to read the image with FileReader.'))
+    reader.onerror = () =>
+      reject(new Error('Failed to read the image with FileReader.'))
+    reader.onloadend = () => (reader = null)
   })
 }
 
@@ -112,14 +103,18 @@ export async function createBlob(
       reject(new Error('Not Supported Canvas'))
       return
     }
-    const { canvasWidth: width, canvasHeight: height } = getDrawImageSize({
-      width: w || image.naturalWidth,
-      height: h || image.naturalHeight,
-      minWidth,
-      minHeight,
-      maxWidth,
-      maxHeight
-    })
+
+    // TODO: FIX DrawCanvasSize
+    const width = image.naturalWidth
+    const height = image.naturalHeight
+    // const { canvasWidth: width, canvasHeight: height } = getDrawImageSize({
+    //   width: image.naturalWidth,
+    //   height: image.naturalHeight,
+    //   minWidth,
+    //   minHeight,
+    //   maxWidth,
+    //   maxHeight
+    // })
 
     const translateX: number = width / 2
     const translateY: number = height / 2
@@ -144,8 +139,10 @@ export async function createBlob(
     context.restore()
     const blobSuccess = (blob: Blob | null) => {
       revokeObjectURL(image.src)
+
       resolve(blob)
     }
+
     canvas.toBlob(blobSuccess, mimeType, quality)
   })
 }

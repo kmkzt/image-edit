@@ -1,4 +1,3 @@
-import Compressor from 'compressorjs'
 import {
   loadFile,
   loadImage,
@@ -6,12 +5,6 @@ import {
   CreateBlobOption,
   FileInfo
 } from './util'
-// type ExcludeKey<T, K extends keyof T> = Pick<
-//   T,
-//   Exclude<keyof T, keyof Pick<T, K>>
-// >
-
-// export type Options = ExcludeKey<Compressor.Options, 'success' | 'error'>
 
 const defaultOption: CreateBlobOption = {
   fillStyle: 'transparent',
@@ -41,24 +34,6 @@ async function imageConvert(
   } catch (err) {
     throw err
   }
-  // return new Promise(
-  //   (resolve, reject) =>
-  //     new Compressor(file, {
-  //       ...options,
-  //       success: (file: Blob) => {
-  //         const reader = new FileReader()
-  //         reader.readAsDataURL(file)
-  //         reader.onload = (e: ProgressEvent) => {
-  //           if (e.target) {
-  //             resolve((e.target as any).result)
-  //           }
-  //         }
-  //       },
-  //       error: (err: Error) => {
-  //         reject(err)
-  //       }
-  //     })
-  // )
 }
 
 export default imageConvert
