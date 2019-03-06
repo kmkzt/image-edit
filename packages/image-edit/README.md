@@ -18,9 +18,20 @@ const file = await res.blob()
 const compImg = imageConvert(file, { quality: 0.7 })
 ```
 
-## Options
+### Options
 
-WIP
+- fillStyle
+- rotate
+- scaleX
+- scaleY
+- width
+- height
+- maxWidth
+- maxHeight
+- minWidth
+- minHeight
+- quality
+- mimeType
 
 ## Licence
 

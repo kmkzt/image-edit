@@ -2,6 +2,12 @@
 
 Easy edit image client library. Uses the Browser's Canvas API library.
 
+## Get Started
+
+```shell
+yarn add image-edit
+```
+
 ## Usage
 
 ```javascript
@@ -13,21 +19,6 @@ const file = await res.blob()
 // imageConvert(f: File | Blob, Options)
 const compImg = imageConvert(file, { quality: 0.7 })
 ```
-
-### Options
-
-- fillStyle
-- rotate
-- scaleX
-- scaleY
-- width
-- height
-- maxWidth
-- maxHeight
-- minWidth
-- minHeight
-- quality
-- mimeType
 
 ## feature
 
