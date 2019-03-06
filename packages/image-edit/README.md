@@ -1,6 +1,6 @@
 # image-edit
 
-eazy image compress library.
+eazy image compress client web library.
 
 ## Get Started
 
