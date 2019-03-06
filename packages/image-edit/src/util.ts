@@ -64,7 +64,7 @@ export async function loadFile(file: File | Blob): Promise<FileInfo> {
     reader.readAsDataURL(file)
     reader.onload = (e: ProgressEvent) => {
       const mimeType: string = file.type
-      const url: string = (e.target as any).result
+      const url: string = createObjectURL(file) || (e.target as any).result
       resolve({
         name: (file as File).name || new Date().toISOString(),
         url,
@@ -119,9 +119,9 @@ export async function createBlob(
     const translateX: number = width / 2
     const translateY: number = height / 2
     const destX: number = -translateX
-    const destY = -translateY
-    const destWidth = width
-    const destHeight = height
+    const destY: number = -translateY
+    const destWidth: number = width
+    const destHeight: number = height
 
     const canvasW = is90DegreesRotated(rotate) ? height : width
     const canvasH = is90DegreesRotated(rotate) ? width : height
@@ -139,7 +139,6 @@ export async function createBlob(
     context.restore()
     const blobSuccess = (blob: Blob | null) => {
       revokeObjectURL(image.src)
-
       resolve(blob)
     }
 
