@@ -1,6 +1,6 @@
 # image-edit
 
-premitives image compress library.
+eazy image compress library.
 
 ## Get Started
 
@@ -18,10 +18,10 @@ const file = await res.blob()
 const compImg = imageConvert(file, { quality: 0.7 })
 ```
 
-## Uses
+## Options
 
-- compressorjs
-https://github.com/fengyuanchen/compressorjs
+WIP
 
 ## Licence
-MIT 
+
+MIT
