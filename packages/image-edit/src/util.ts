@@ -1,6 +1,6 @@
 import { resolve } from 'url'
 
-interface Option {
+export interface CreateBlobOption {
   fillStyle: string
   rotate: number
   scaleX: number
@@ -15,7 +15,7 @@ interface Option {
   mimeType: string
 }
 
-interface FileInfo {
+export interface FileInfo {
   name: string
   url: string
   mimeType: string
@@ -58,18 +58,21 @@ export async function loadImage(file: FileInfo): Promise<HTMLImageElement> {
   })
 }
 
-export async function loadFile(file: File, cancel?: any): Promise<FileInfo> {
+export async function loadFile(
+  file: File | Blob,
+  cancel?: any
+): Promise<FileInfo> {
   return new Promise((resolve, reject) => {
     let reader: FileReader | null = new FileReader()
     if (reader) {
       reader.onload = (e: ProgressEvent) => {
         const mimeType: string = file.type
-        const url =
+        const url: string =
           file.type === 'image/jpeg'
             ? createObjectURL(file)
             : (e.target as any).result
         resolve({
-          name: file.name,
+          name: (file as File).name || new Date().toISOString(),
           url,
           mimeType
         })
@@ -100,7 +103,7 @@ export async function createBlob(
     maxHeight = 0,
     quality = 0.7,
     mimeType = 'image/jpeg'
-  }: Option
+  }: CreateBlobOption
 ): Promise<Blob | null> {
   return new Promise((resolve, reject) => {
     const canvas: HTMLCanvasElement = document.createElement('canvas')
