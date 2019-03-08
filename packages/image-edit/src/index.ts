@@ -6,7 +6,7 @@ import {
   FileInfo
 } from './lib'
 
-async function imageConvert(
+async function edit(
   input: File | Blob,
   options: CreateBlobOption
 ): Promise<string> {
@@ -25,4 +25,4 @@ async function imageConvert(
 }
 
 export * from './lib'
-export default imageConvert
+export default edit
