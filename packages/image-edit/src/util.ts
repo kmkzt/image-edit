@@ -110,12 +110,12 @@ export async function createBlob(
       maxWidth,
       maxHeight
     })
-
+    const radian = (rotate * Math.PI) / 180
     const destWidth: number = width
     const destHeight: number = height
 
-    const canvasW = is90DegreesRotated(rotate) ? height : width
-    const canvasH = is90DegreesRotated(rotate) ? width : height
+    const canvasW = width * Math.cos(radian) + height * Math.sin(radian)
+    const canvasH = width * Math.sin(radian) + height * Math.cos(radian)
     const translateX: number = canvasW / 2
     const translateY: number = canvasH / 2
     const destX: number = is90DegreesRotated(rotate) ? -translateY : -translateX
