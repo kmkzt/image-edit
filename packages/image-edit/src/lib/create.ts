@@ -1,3 +1,10 @@
+import {
+  revokeObjectURL,
+  getRadian,
+  is90Deg,
+  normalizeDecimalNumber
+} from '@/util'
+
 export interface CreateBlobOption {
   fillStyle: string
   rotate: number
@@ -12,13 +19,6 @@ export interface CreateBlobOption {
   quality: number
   mimeType: string
 }
-
-export interface FileInfo {
-  name: string
-  url: string
-  mimeType: string
-}
-
 interface DrawParam {
   width: number
   height: number
@@ -32,52 +32,6 @@ interface DrawCanvasSize {
   canvasWidth: number
   canvasHeight: number
 }
-
-const createObjectURL = (file: File | Blob): string | null =>
-  window.URL ? window.URL.createObjectURL(file) : null
-
-const revokeObjectURL = (src: string) =>
-  window.URL ? window.URL.revokeObjectURL(src) : null
-
-const getRadian = (rotate: number): number => (rotate * Math.PI) / 180
-export async function loadImage(file: FileInfo): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const image: HTMLImageElement = new Image()
-    image.onload = () => {
-      resolve(image)
-    }
-    image.onabort = () => {
-      reject(new Error('Aborted to load the image.'))
-    }
-    image.onerror = () => {
-      reject(new Error('Failed to load the image.'))
-    }
-    image.alt = file.name
-    image.src = file.url
-  })
-}
-
-export async function loadFile(file: File | Blob): Promise<FileInfo> {
-  return new Promise((resolve, reject) => {
-    let reader: FileReader | null = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = (e: ProgressEvent) => {
-      const mimeType: string = file.type
-      const url: string = createObjectURL(file) || (e.target as any).result
-      resolve({
-        name: (file as File).name || new Date().toISOString(),
-        url,
-        mimeType
-      })
-    }
-    reader.onabort = () =>
-      reject(new Error('Aborted to read the image with FileReader.'))
-    reader.onerror = () =>
-      reject(new Error('Failed to read the image with FileReader.'))
-    reader.onloadend = () => (reader = null)
-  })
-}
-
 export async function createBlob(
   image: HTMLImageElement,
   {
@@ -120,8 +74,8 @@ export async function createBlob(
     const canvasH = width * Math.sin(radian) + height * Math.cos(radian)
     const translateX: number = canvasW / 2
     const translateY: number = canvasH / 2
-    const destX: number = is90DegreesRotated(rotate) ? -translateY : -translateX
-    const destY: number = is90DegreesRotated(rotate) ? -translateX : -translateY
+    const destX: number = is90Deg(rotate) ? -translateY : -translateX
+    const destY: number = is90Deg(rotate) ? -translateX : -translateY
 
     canvas.width = canvasW
     canvas.height = canvasH
@@ -143,21 +97,6 @@ export async function createBlob(
   })
 }
 
-const is90DegreesRotated = (rotate: number) => Math.abs(rotate) % 180 === 90
-
-/**
- * Normalize decimal number.
- * Check out {@link http://0.30000000000000004.com/}
- * @param {number} value - The value to normalize.
- * @param {number} [times=100000000000] - The times for normalizing.
- * @returns {number} Returns the normalized number.
- */
-const REGEXP_DECIMALS: RegExp = /\.\d*(?:0|9){12}\d*$/
-const normalizeDecimalNumber = (value: number, times: number = 100000000000) =>
-  REGEXP_DECIMALS.test(String(value))
-    ? Math.round(value * times) / times
-    : value
-
 interface WidthHeight {
   width: number
   height: number
@@ -171,7 +110,7 @@ function getDrawImageSize({
   maxWidth = Infinity,
   maxHeight = Infinity
 }: DrawParam): DrawCanvasSize {
-  if (is90DegreesRotated(rotate)) {
+  if (is90Deg(rotate)) {
     return getDrawImageSize({
       width: naturalHeight,
       height: naturalWidth,
