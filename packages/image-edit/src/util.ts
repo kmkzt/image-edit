@@ -39,6 +39,7 @@ const createObjectURL = (file: File | Blob): string | null =>
 const revokeObjectURL = (src: string) =>
   window.URL ? window.URL.revokeObjectURL(src) : null
 
+const getRadian = (rotate: number): number => (rotate * Math.PI) / 180
 export async function loadImage(file: FileInfo): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const image: HTMLImageElement = new Image()
@@ -110,7 +111,8 @@ export async function createBlob(
       maxWidth,
       maxHeight
     })
-    const radian = (rotate * Math.PI) / 180
+
+    const radian = getRadian(rotate)
     const destWidth: number = width
     const destHeight: number = height
 
@@ -128,7 +130,7 @@ export async function createBlob(
     context.fillRect(0, 0, canvasW, canvasH)
     context.save()
     context.translate(translateX, translateY)
-    context.rotate((rotate * Math.PI) / 180)
+    context.rotate(radian)
     context.scale(scaleX, scaleY)
     context.drawImage(image, destX, destY, destWidth, destHeight)
     context.restore()
