@@ -13,8 +13,9 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "downlevelIteration": true,
-    "noEmit": true,
+    "noEmitOnError": true,
     "noUnusedLocals": false,
+    "preserveConstEnums": false,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "strictNullChecks": true,
@@ -27,8 +28,14 @@
     "paths": {
       "@*": ["src*"]
     },
-    "typeRoots": ["../../node_modules/@types", "node_modules/@types", "./types"]
+    "typeRoots": [
+      "../../node_modules/@types",
+      "../../node_modules/image-edit/types",
+      "node_modules/@types",
+      "./types"
+    ]
   },
+  "include": ["src/**/*"],
   "exclude": [
     "node_modules",
     "build",
