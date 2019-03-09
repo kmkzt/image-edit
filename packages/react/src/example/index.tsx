@@ -1,9 +1,8 @@
-import React, { FC, useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { FileDrop, DisplayFile } from '@/components/'
-import { useState } from 'react'
 
-const App: FC<{}> = ({}) => {
+function App({}) {
   const [files, setFiles] = useState<File[]>([])
 
   const handleFile = useCallback(
