@@ -1,10 +1,17 @@
 {
   "name": "react-image-edit",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "author": "kmkzt",
   "description": "simple iamge edit ui react library.",
   "main": "lib/index.min.js",
   "types": "types/index.d.ts",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kmkzt/image-edit.git",
+    "directory": "packages/react-image-edit"
+  },
+  "bugs": "https://github.com/kmkzt/image-edit/issues",
   "keywords": [
     "react",
     "file"
