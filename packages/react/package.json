@@ -1,9 +1,14 @@
 {
-  "name": "editimagejs-react",
+  "name": "react-image-edit",
   "version": "0.1.0",
-  "private": true,
-  "author": "kamei-kazuto",
+  "author": "kmkzt",
   "main": "lib/index.min.js",
+  "scripts": {
+    "dev": "NODE_ENV=development webpack-dev-server",
+    "build": "rimraf lib && rimraf types && NODE_ENV=production webpack -p",
+    "test": "jest",
+    "lint:fix": "prettier --write ./src/**/*.{ts,tsx}"
+  },
   "dependencies": {
     "apollo-cache-inmemory": "1.5.1",
     "apollo-cache-persist": "0.1.1",
@@ -22,11 +27,8 @@
     "styled-components": "4.1.3",
     "styled-reset": "2.0.0"
   },
-  "scripts": {
-    "dev": "NODE_ENV=development webpack-dev-server",
-    "build": "rm -r lib && NODE_ENV=production webpack -p",
-    "test": "jest",
-    "lint:fix": "prettier --write ./src/**/*.{ts,tsx}"
+  "peerDependencies": {
+    "image-edit": "0.2.1"
   },
   "devDependencies": {
     "@types/enzyme": "3.9.0",

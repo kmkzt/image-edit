@@ -1,7 +1,10 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "outDir": "./lib",
+    "allowJs": false,
     "declaration": true,
-    "declarationDir": "./lib"
-  }
+    "declarationDir": "./types"
+  },
+  "exclude": ["./src/example"]
 }
