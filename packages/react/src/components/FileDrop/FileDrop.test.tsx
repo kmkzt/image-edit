@@ -2,11 +2,11 @@ import * as React from 'react'
 import { mount } from 'enzyme'
 import 'jest-styled-components'
 import toJson from 'enzyme-to-json'
-import { Counter } from './Counter'
+import { FileDrop } from '.'
 
-describe('Counter コンポーネント', () => {
+describe('FileDrop SnapShot', () => {
   it('render', () => {
-    const tree = mount(<Counter count={0} />);
+    const tree = mount(<FileDrop />)
     expect(toJson(tree)).toMatchSnapshot()
-  });
-});
+  })
+})
