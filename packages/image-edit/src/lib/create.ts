@@ -32,23 +32,41 @@ interface DrawCanvasSize {
   canvasWidth: number
   canvasHeight: number
 }
+
+const defaultCreateBlobOption: CreateBlobOption = {
+  fillStyle: 'transparent',
+  rotate: 0,
+  scaleX: 1,
+  scaleY: 1,
+  minWidth: 0,
+  minHeight: 0,
+  maxWidth: Infinity,
+  maxHeight: Infinity,
+  quality: 0.7,
+  mimeType: 'image/jpeg'
+}
 export async function createBlob(
   image: HTMLImageElement,
-  {
-    fillStyle = 'transparent',
-    rotate = 0,
-    scaleX = 1,
-    scaleY = 1,
+  option: Partial<CreateBlobOption>
+): Promise<Blob | null> {
+  const {
+    fillStyle,
+    rotate,
+    scaleX,
+    scaleY,
     width: w,
     height: h,
-    minWidth = 0,
-    minHeight = 0,
-    maxWidth = Infinity,
-    maxHeight = Infinity,
-    quality = 0.7,
-    mimeType = 'image/jpeg'
-  }: CreateBlobOption
-): Promise<Blob | null> {
+    minWidth,
+    minHeight,
+    maxWidth,
+    maxHeight,
+    quality,
+    mimeType
+  }: CreateBlobOption = {
+    ...defaultCreateBlobOption,
+    ...option
+  }
+
   return new Promise((resolve, reject) => {
     const canvas: HTMLCanvasElement = document.createElement('canvas')
     const context: CanvasRenderingContext2D | null = canvas.getContext('2d')

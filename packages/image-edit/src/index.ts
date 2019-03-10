@@ -6,10 +6,8 @@ import {
   FileInfo
 } from './lib'
 
-async function edit(
-  input: File | Blob,
-  options: CreateBlobOption
-): Promise<string> {
+export type EditOption = Partial<CreateBlobOption>
+async function edit(input: File | Blob, options: EditOption): Promise<string> {
   try {
     const file: FileInfo = await loadFile(input)
     const image: HTMLImageElement = await loadImage(file)
