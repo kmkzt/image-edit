@@ -8,8 +8,10 @@ const defaultOption: EditOption = {
   rotate: 10,
   scaleX: 1,
   scaleY: 1,
-  maxWidth: window.innerWidth,
-  maxHeight: window.innerHeight,
+  minWidth: 0,
+  minHeight: 0,
+  maxWidth: Infinity,
+  maxHeight: Infinity,
   mimeType: 'image/jpeg'
 }
 function App({}) {
@@ -51,7 +53,7 @@ function App({}) {
     (i: number) => (e: React.MouseEvent) => {
       changeIndex(i)
     },
-    [files, editImage]
+    [selectedIndex]
   )
   const editFile = useCallback(async () => {
     if (files[selectedIndex]) {
@@ -61,11 +63,12 @@ function App({}) {
 
   useEffect(() => {
     editFile()
-  }, [options, selectedIndex])
+  }, [files, options, selectedIndex])
   return (
     <>
       <FileDrop fileAction={handleFile}>
         <InputFile fileAction={handleFile} />
+        <span>Select or Drop file</span>
       </FileDrop>
       <div
         style={{
@@ -78,7 +81,11 @@ function App({}) {
         {files.map((file: File, i: number) => (
           <DisplayFile
             key={i}
-            style={{ width: '100%', heigth: 'auto' }}
+            style={{
+              width: '100%',
+              heigth: 'auto',
+              filter: i === selectedIndex ? 'grayscale(0)' : 'grayscale(100)'
+            }}
             file={file}
             onClick={selectFile(i)}
           />
@@ -90,6 +97,7 @@ function App({}) {
           flexDirection: 'column'
         }}
       >
+        {/* TODO: Quality
         <label>
           <span>quality</span>
           <input
@@ -101,7 +109,7 @@ function App({}) {
             value={options.quality}
             onChange={handleChangeInput}
           />
-        </label>
+        </label> */}
         <label>
           <span>rotate</span>
           <input
@@ -139,11 +147,31 @@ function App({}) {
           />
         </label>
         <label>
+          <span>minWidth</span>
+          <input
+            name="minWidth"
+            type="number"
+            step={10}
+            value={options.minWidth}
+            onChange={handleChangeInput}
+          />
+        </label>
+        <label>
+          <span>minHeight</span>
+          <input
+            name="minHeight"
+            type="number"
+            step={10}
+            value={options.minHeight}
+            onChange={handleChangeInput}
+          />
+        </label>
+        <label>
           <span>maxWidth</span>
           <input
             name="maxWidth"
             type="number"
-            step={1}
+            step={10}
             min={50}
             value={options.maxWidth}
             onChange={handleChangeInput}
@@ -152,9 +180,9 @@ function App({}) {
         <label>
           <span>maxHeight</span>
           <input
-            name="maxWidth"
+            name="maxHeight"
             type="number"
-            step={1}
+            step={10}
             min={50}
             value={options.maxHeight}
             onChange={handleChangeInput}
@@ -171,7 +199,14 @@ function App({}) {
         </select>
         {JSON.stringify(options)}
       </div>
-      {editImage && <img src={editImage} />}
+      {editImage && (
+        <>
+          <img style={{ width: '100%', height: '100%' }} src={editImage} />
+          <a href={editImage} download>
+            Download
+          </a>
+        </>
+      )}
     </>
   )
 }
