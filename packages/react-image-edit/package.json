@@ -41,7 +41,7 @@
     "styled-reset": "2.0.0"
   },
   "peerDependencies": {
-    "image-edit": "0.2.1"
+    "image-edit": "0.2.12"
   },
   "devDependencies": {
     "@types/enzyme": "3.9.0",
