@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import ReactDOM from 'react-dom'
-import { FileDrop, DisplayFile } from '@/components/'
+import { FileDrop, DisplayFile, InputFile } from '@/components/'
 import edit, { FileInfo, createBlob, loadImage } from 'image-edit'
 
 function App({}) {
@@ -24,7 +24,9 @@ function App({}) {
   )
   return (
     <>
-      <FileDrop fileAction={handleFile} />
+      <FileDrop fileAction={handleFile}>
+        <InputFile fileAction={handleFile} />
+      </FileDrop>
       <div
         style={{
           display: 'grid',
