@@ -1,6 +1,6 @@
 {
   "name": "react-image-edit",
-  "version": "0.2.1",
+  "version": "0.2.11",
   "author": "kmkzt",
   "description": "simple iamge edit ui react library.",
   "main": "lib/index.min.js",
