@@ -1,4 +1,5 @@
 import { CreateBlobOption } from './lib';
-declare function imageConvert(input: File | Blob, options: CreateBlobOption): Promise<string>;
+export declare type EditOption = Partial<CreateBlobOption>;
+declare function edit(input: File | Blob, options: EditOption): Promise<string>;
 export * from './lib';
-export default imageConvert;
+export default edit;
