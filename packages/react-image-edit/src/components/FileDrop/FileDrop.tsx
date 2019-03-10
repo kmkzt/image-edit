@@ -29,7 +29,9 @@ export const FileDrop: React.SFC<
       onDragEnter={preventHandler}
       style={
         style || {
-          display: 'block',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
           background: '#eee',
           border: '1px dashed #999',
           width: '100%',
