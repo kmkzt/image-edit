@@ -20,11 +20,15 @@ const file = await res.blob()
 const compImg = imageConvert(file, { quality: 0.7 })
 ```
 
+## UI Library
+
+[React-image-edit](./packages/react-image-edit)
+
 ## feature
 
 - [x] compress image
 - [ ] drawing image
 - [ ] effect image
-- [ ] edit image UI
-  - [ ] React
+- [x] edit image UI
+  - [x] React
   - [ ] Web Components
