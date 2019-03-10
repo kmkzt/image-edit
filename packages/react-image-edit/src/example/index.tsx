@@ -3,14 +3,20 @@ import ReactDOM from 'react-dom'
 import { FileDrop, DisplayFile, InputFile } from '@/components/'
 import edit, { FileInfo, createBlob, loadImage, EditOption } from 'image-edit'
 
+const defaultOption: EditOption = {
+  quality: 0.7,
+  rotate: 10,
+  scaleX: 1,
+  scaleY: 1,
+  maxWidth: window.innerWidth,
+  maxHeight: window.innerHeight,
+  mimeType: 'image/jpeg'
+}
 function App({}) {
   const [files, setFiles] = useState<File[]>([])
   const [selectedIndex, changeIndex] = useState<number>(0)
   const [editImage, changeEdit] = useState<string | null>()
-  const [options, changeOption] = useState<EditOption>({
-    quality: 0.7,
-    rotate: 10
-  })
+  const [options, changeOption] = useState<EditOption>(defaultOption)
   const handleFile = useCallback(
     (f: File | FileList) => {
       setFiles([...files, ...Object.values(f)])
@@ -29,6 +35,18 @@ function App({}) {
     },
     [options]
   )
+  const handleChangeSelect = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const { name, value } = e.target
+      if (name) {
+        changeOption({
+          ...options,
+          [name]: value
+        })
+      }
+    },
+    [options]
+  )
   const selectFile = useCallback(
     (i: number) => (e: React.MouseEvent) => {
       changeIndex(i)
@@ -36,7 +54,7 @@ function App({}) {
     [files, editImage]
   )
   const editFile = useCallback(async () => {
-    if (selectedIndex < files.length) {
+    if (files[selectedIndex]) {
       changeEdit(await edit(files[selectedIndex], options))
     }
   }, [editImage, selectedIndex, files, options])
@@ -66,7 +84,12 @@ function App({}) {
           />
         ))}
       </div>
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column'
+        }}
+      >
         <label>
           <span>quality</span>
           <input
@@ -91,6 +114,61 @@ function App({}) {
             onChange={handleChangeInput}
           />
         </label>
+        <label>
+          <span>scaleX</span>
+          <input
+            name="scaleX"
+            type="number"
+            step={0.1}
+            min={0.5}
+            max={2}
+            value={options.scaleX}
+            onChange={handleChangeInput}
+          />
+        </label>
+        <label>
+          <span>scaleY</span>
+          <input
+            name="scaleY"
+            type="number"
+            step={0.1}
+            min={0.5}
+            max={2}
+            value={options.scaleY}
+            onChange={handleChangeInput}
+          />
+        </label>
+        <label>
+          <span>maxWidth</span>
+          <input
+            name="maxWidth"
+            type="number"
+            step={1}
+            min={50}
+            value={options.maxWidth}
+            onChange={handleChangeInput}
+          />
+        </label>
+        <label>
+          <span>maxHeight</span>
+          <input
+            name="maxWidth"
+            type="number"
+            step={1}
+            min={50}
+            value={options.maxHeight}
+            onChange={handleChangeInput}
+          />
+        </label>
+        <select
+          name="mimeType"
+          value={options.mimeType}
+          onChange={handleChangeSelect}
+        >
+          <option value="image/jpeg">jpeg</option>
+          <option value="image/png">png</option>
+          <option value="image/webp">webP</option>
+        </select>
         {JSON.stringify(options)}
       </div>
       {editImage && <img src={editImage} />}
