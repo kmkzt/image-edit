@@ -1,4 +1,4 @@
-import imageCompress from '@/'
+import edit, { EditOption } from '@/'
 
 const fetchImage = async () => {
   try {
@@ -10,10 +10,10 @@ const fetchImage = async () => {
   }
 }
 
-const compressImgRender = async (file: Blob, option: any) => {
+const compressImgRender = async (file: Blob, option: EditOption) => {
   try {
     let compressImg: HTMLImageElement = new Image()
-    compressImg.src = await imageCompress(file, option)
+    compressImg.src = await edit(file, option)
     const divEle = document.createElement('div')
     const pEle = document.createElement('p')
     pEle.innerHTML = JSON.stringify(option)
