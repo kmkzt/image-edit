@@ -12,4 +12,4 @@ export interface CreateBlobOption {
     quality: number;
     mimeType: string;
 }
-export declare function createBlob(image: HTMLImageElement, { fillStyle, rotate, scaleX, scaleY, width: w, height: h, minWidth, minHeight, maxWidth, maxHeight, quality, mimeType }: CreateBlobOption): Promise<Blob | null>;
+export declare function createBlob(image: HTMLImageElement, option: Partial<CreateBlobOption>): Promise<Blob | null>;
