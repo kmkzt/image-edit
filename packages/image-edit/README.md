@@ -2,6 +2,8 @@
 
 eazy image compress client web library.
 
+[Demo](https://kmkzt.github.io/image-edit/)
+
 ## Get Started
 
 ```shell
