@@ -10,12 +10,31 @@ yarn add image-edit
 
 ## Usage
 
-```javascript
-import imageEdit from 'image-edit'
+```html
+<input type="file" id="file" accept="image/*" />
+```
 
-const res = await fetch('./sample.jpg')
-const file = await res.blob()
-const compImg = imagEdit(file, { quality: 0.7 })
+```javascript
+import edit from 'image-edit'
+
+document.getElementById('file').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+
+  if (!file) {
+    return;
+  }
+  try {
+    const imageData = await edit(file, { quality: 0.7, mimeType: 'image/webp'})
+    const fromData = new FormData()
+    formData.append('file' imageData, file.name)
+    await fetch('/path/to/upload', {
+      method: 'post',
+      body: formData
+    })
+  } catch (err) {
+    console.log(err)
+  }
+})
 ```
 
 ### Options
