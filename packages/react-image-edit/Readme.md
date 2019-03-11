@@ -10,7 +10,8 @@ yarn add react-image-edit
 
 ```tsx
 import React, { useCallback, useState } from 'react'
-import { FileDrop, DisplayFile } from 'react-image-edit'
+import { DropFile, DisplayFile } from 'react-image-edit'
+
 function App({}) {
   const [files, setFiles] = useState<File[]>([])
 
@@ -22,7 +23,7 @@ function App({}) {
   )
   return (
     <>
-      <FileDrop fileAction={handleFile} />
+      <DropFile fileAction={handleFile}>
       <div
         style={{
           display: 'grid',

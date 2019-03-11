@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FileDrop Test snapshot 1`] = `
+<Component>
+  <label
+    onDragEnter={[Function]}
+    onDragOver={[Function]}
+    onDrop={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "background": "#eee",
+        "border": "1px dashed #999",
+        "display": "flex",
+        "height": "300px",
+        "justifyContent": "center",
+        "width": "100%",
+      }
+    }
+  >
+    <Component
+      style={
+        Object {
+          "display": "none",
+        }
+      }
+    >
+      <input
+        accept="image/*"
+        multiple={true}
+        onChange={[Function]}
+        style={
+          Object {
+            "display": "none",
+          }
+        }
+        type="file"
+      />
+    </Component>
+  </label>
+</Component>
+`;

@@ -1,3 +1,3 @@
 export * from './DisplayFile'
-export * from './FileDrop'
+export * from './DropFile'
 export * from './InputFile'

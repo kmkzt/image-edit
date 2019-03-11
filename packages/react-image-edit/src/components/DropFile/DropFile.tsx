@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react'
+import { InputFile } from '../InputFile'
 
 interface Props {
   fileAction?: (file: File | FileList) => void
 }
 
-export const FileDrop: React.SFC<
+export const DropFile: React.SFC<
   Props & React.LabelHTMLAttributes<HTMLLabelElement>
 > = ({ fileAction, children, style, ...other }) => {
   const onDropHandler = useCallback(
@@ -39,6 +40,7 @@ export const FileDrop: React.SFC<
         }
       }
     >
+      <InputFile style={{ display: 'none' }} fileAction={fileAction} />
       {children}
     </label>
   )

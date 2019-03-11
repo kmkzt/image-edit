@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InputFile Test snapshot 1`] = `
+<Component>
+  <input
+    accept="image/*"
+    multiple={true}
+    onChange={[Function]}
+    type="file"
+  />
+</Component>
+`;

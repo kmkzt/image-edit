@@ -1,6 +1,6 @@
 const { join, resolve } = require('path')
 const { smart } = require('webpack-merge')
-
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const common = require('./webpack.config')
 
@@ -17,7 +17,14 @@ const config = {
     new HtmlWebpackPlugin({
       template: resolve('template.html')
     })
-  ]
+  ],
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        parallel: true
+      })
+    ]
+  }
 }
 
 module.exports = smart(common, config)
