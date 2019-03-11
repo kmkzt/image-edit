@@ -1,13 +1,9 @@
 'use strict'
 
 const { resolve } = require('path')
-const { smart } = require('webpack-merge')
 const devMode = process.env.NODE_ENV === 'development'
-const config = devMode
-  ? require('./webpack.dev.config')
-  : require('./webpack.prod.config')
 
-const common = {
+module.exports = {
   mode: devMode ? 'development' : 'production',
 
   module: {
@@ -44,5 +40,3 @@ const common = {
     }
   }
 }
-
-module.exports = smart(common, config)
