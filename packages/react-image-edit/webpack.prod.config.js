@@ -1,6 +1,8 @@
 const { join, resolve } = require('path')
+const { smart } = require('webpack-merge')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
+const common = require('./webpack.config')
 
 const config = {
   entry: resolve(__dirname, 'src/index.ts'),
@@ -36,4 +38,4 @@ const config = {
   }
 }
 
-module.exports = config
+module.exports = smart(common, config)

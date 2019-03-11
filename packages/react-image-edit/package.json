@@ -17,8 +17,9 @@
     "file"
   ],
   "scripts": {
-    "dev": "NODE_ENV=development webpack-dev-server",
-    "build": "rimraf lib && rimraf types && NODE_ENV=production webpack -p",
+    "dev": "NODE_ENV=development webpack-dev-server --config  webpack.dev.config.js",
+    "build": "rimraf lib && rimraf types && NODE_ENV=production webpack -p --config webpack.prod.config.js",
+    "build:demo": "NODE_ENV=development webpack --config webpack.demo.config.js",
     "test": "jest",
     "lint:fix": "prettier --write ./src/**/*.{ts,tsx}"
   },
