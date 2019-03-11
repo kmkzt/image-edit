@@ -1,6 +1,6 @@
 {
   "name": "react-image-edit",
-  "version": "0.2.11",
+  "version": "0.2.2",
   "author": "kmkzt",
   "description": "simple iamge edit ui react library.",
   "main": "lib/index.min.js",
@@ -19,7 +19,7 @@
   "scripts": {
     "dev": "NODE_ENV=development webpack-dev-server --config  webpack.dev.config.js",
     "build": "rimraf lib && rimraf types && NODE_ENV=production webpack -p --config webpack.prod.config.js",
-    "build:demo": "NODE_ENV=development webpack --config webpack.demo.config.js",
+    "build:demo": "rimraf ../../docs && NODE_ENV=production webpack -p --config webpack.demo.config.js && rimraf types/example",
     "test": "jest",
     "lint:fix": "prettier --write ./src/**/*.{ts,tsx}"
   },

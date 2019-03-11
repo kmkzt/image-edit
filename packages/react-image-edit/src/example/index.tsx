@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
-import { FileDrop, DisplayFile, InputFile } from '@/components/'
-import edit, { FileInfo, createBlob, loadImage, EditOption } from 'image-edit'
+import { DropFile, DisplayFile, InputFile } from '@/components/'
+import edit, { EditOption } from 'image-edit'
 
 const defaultOption: EditOption = {
   quality: 0.7,
@@ -66,10 +66,9 @@ function App({}) {
   }, [files, options, selectedIndex])
   return (
     <>
-      <FileDrop fileAction={handleFile}>
-        <InputFile fileAction={handleFile} />
+      <DropFile fileAction={handleFile}>
         <span>Select or Drop file</span>
-      </FileDrop>
+      </DropFile>
       <div
         style={{
           display: 'grid',

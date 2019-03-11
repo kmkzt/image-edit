@@ -5,7 +5,6 @@ interface Props {
 
 export const InputFile: FC<Props & React.HTMLAttributes<HTMLInputElement>> = ({
   fileAction,
-  style,
   ...other
 }) => {
   const handleFiles = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,7 +18,6 @@ export const InputFile: FC<Props & React.HTMLAttributes<HTMLInputElement>> = ({
     <input
       type="file"
       onChange={handleFiles}
-      style={style || { display: 'none' }}
       multiple
       accept="image/*"
       {...other}
