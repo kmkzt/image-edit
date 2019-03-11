@@ -2,7 +2,7 @@
 
 Easy edit image client library. Uses the Browser's Canvas API library.
 
-## (Demo)[https://kmkzt.github.io/image-edit/]
+## [Demo](https://kmkzt.github.io/image-edit/)
 
 ## Get Started
 
