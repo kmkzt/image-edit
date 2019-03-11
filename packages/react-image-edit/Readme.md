@@ -1,5 +1,9 @@
 # React Image Edit
 
+image-edit ui library.
+
+[Demo](https://kmkzt.github.io/image-edit/)
+
 ## Get Started
 
 ```shell
