@@ -1,6 +1,6 @@
 {
   "name": "react-image-edit",
-  "version": "0.2.21",
+  "version": "0.2.4",
   "author": "kmkzt",
   "description": "simple iamge edit ui react library.",
   "main": "lib/index.min.js",
@@ -42,7 +42,7 @@
     "styled-reset": "2.0.0"
   },
   "peerDependencies": {
-    "image-edit": "0.2.12"
+    "image-edit": "0.2.4"
   },
   "devDependencies": {
     "@types/enzyme": "3.9.0",
