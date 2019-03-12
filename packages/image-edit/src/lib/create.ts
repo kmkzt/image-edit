@@ -85,15 +85,16 @@ export async function createBlob(
     })
 
     const radian = getRadian(rotate)
+    // drawImageSize
     const destWidth: number = width
     const destHeight: number = height
-
+    const destX: number = -destWidth / 2
+    const destY: number = -destHeight / 2
+    // canvasSize
     const canvasW = width * Math.cos(radian) + height * Math.sin(radian)
     const canvasH = width * Math.sin(radian) + height * Math.cos(radian)
     const translateX: number = canvasW / 2
     const translateY: number = canvasH / 2
-    const destX: number = is90Deg(rotate) ? -translateY : -translateX
-    const destY: number = is90Deg(rotate) ? -translateX : -translateY
 
     canvas.width = canvasW
     canvas.height = canvasH
