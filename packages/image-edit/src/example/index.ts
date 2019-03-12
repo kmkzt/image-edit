@@ -42,8 +42,22 @@ const render = async () => {
       compressImgRender(orgImgData, { quality: 0.3, width: 600 })
       compressImgRender(orgImgData, { quality: 0.2, width: 600 })
       compressImgRender(orgImgData, { quality: 0.1, width: 600 })
+      compressImgRender(orgImgData, { quality: 0.1, scaleX: 1.5 })
+      compressImgRender(orgImgData, { quality: 0.1, scaleY: 1.5 })
+      compressImgRender(orgImgData, { quality: 0.1, scaleX: 0.8, scaleY: 1.5 })
+      compressImgRender(orgImgData, { quality: 0.1, scaleX: 1.2, scaleY: 0.6 })
+      compressImgRender(orgImgData, {
+        quality: 0.1,
+        scaleX: 0.8,
+        scaleY: 1.5,
+        rotate: 10
+      })
+      compressImgRender(orgImgData, { quality: 0.1, scaleX: 0.8, rotate: 30 })
+      compressImgRender(orgImgData, { quality: 0.1, scaleY: 1.5, rotate: 50 })
+      compressImgRender(orgImgData, { quality: 0.1, rotate: 30 })
       compressImgRender(orgImgData, { quality: 0.1, rotate: 30 })
       compressImgRender(orgImgData, { quality: 0.1, rotate: 90 })
+      compressImgRender(orgImgData, { quality: 0.1, rotate: 90, scaleX: 0.5 })
     }
   } catch (err) {
     console.log(err)

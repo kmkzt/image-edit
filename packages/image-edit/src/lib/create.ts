@@ -28,9 +28,9 @@ interface DrawParam {
   maxHeight?: number
   rotate?: number
 }
-interface DrawCanvasSize {
-  canvasWidth: number
-  canvasHeight: number
+interface DrawImageSize {
+  width: number
+  height: number
 }
 
 const defaultCreateBlobOption: CreateBlobOption = {
@@ -75,7 +75,8 @@ export async function createBlob(
       return
     }
 
-    const { canvasWidth: width, canvasHeight: height } = getDrawImageSize({
+    const radian = getRadian(rotate)
+    const { width, height } = getDrawImageSize({
       width: image.naturalWidth,
       height: image.naturalHeight,
       minWidth,
@@ -84,15 +85,16 @@ export async function createBlob(
       maxHeight
     })
 
-    const radian = getRadian(rotate)
     // drawImageSize
-    const destWidth: number = width
-    const destHeight: number = height
+    const destWidth: number = width * scaleX
+    const destHeight: number = height * scaleY
     const destX: number = -destWidth / 2
     const destY: number = -destHeight / 2
     // canvasSize
-    const canvasW = width * Math.cos(radian) + height * Math.sin(radian)
-    const canvasH = width * Math.sin(radian) + height * Math.cos(radian)
+    const canvasW: number =
+      destWidth * Math.cos(radian) + destHeight * Math.sin(radian)
+    const canvasH: number =
+      destWidth * Math.sin(radian) + destHeight * Math.cos(radian)
     const translateX: number = canvasW / 2
     const translateY: number = canvasH / 2
 
@@ -104,7 +106,6 @@ export async function createBlob(
     context.save()
     context.translate(translateX, translateY)
     context.rotate(radian)
-    context.scale(scaleX, scaleY)
     context.drawImage(image, destX, destY, destWidth, destHeight)
     context.restore()
     const blobSuccess = (blob: Blob | null) => {
@@ -128,7 +129,7 @@ function getDrawImageSize({
   minHeight = 0,
   maxWidth = Infinity,
   maxHeight = Infinity
-}: DrawParam): DrawCanvasSize {
+}: DrawParam): DrawImageSize {
   if (is90Deg(rotate)) {
     return getDrawImageSize({
       width: naturalHeight,
@@ -204,12 +205,12 @@ function getDrawImageSize({
       }
 
   return {
-    canvasWidth: Math.floor(
+    width: Math.floor(
       normalizeDecimalNumber(
         Math.min(Math.max(base.width, min.width), max.width)
       )
     ),
-    canvasHeight: Math.floor(
+    height: Math.floor(
       normalizeDecimalNumber(
         Math.min(Math.max(base.height, min.height), max.height)
       )
