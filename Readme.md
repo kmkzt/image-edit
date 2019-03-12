@@ -41,7 +41,7 @@ document.getElementById('file').addEventListener('change', async (e) => {
 
 ## UI Library
 
-[React-image-edit](./packages/react-image-edit)
+[React-image-edit](./packages/react-image-edit/README.md)
 
 ## feature
 
