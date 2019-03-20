@@ -34,7 +34,7 @@
     "image-edit": "0.2.5"
   },
   "devDependencies": {
-    "@types/enzyme": "3.9.0",
+    "@types/enzyme": "3.9.1",
     "@types/enzyme-adapter-react-16": "1.0.5",
     "@types/react": "16.8.8",
     "@types/react-dom": "16.8.2",
