@@ -23,6 +23,7 @@
     "build": "rimraf lib && rimraf types && NODE_ENV=production webpack -p --config webpack.prod.config.js",
     "build:demo": "rimraf ../../docs && NODE_ENV=production webpack -p --config webpack.demo.config.js && rimraf types/example",
     "test": "jest",
+    "lint": "eslint --fix \"./src/**/*.{ts, tsx}\"",
     "lint:fix": "prettier --write ./src/**/*.{ts,tsx}"
   },
   "dependencies": {

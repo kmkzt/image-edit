@@ -6,12 +6,10 @@ module.exports = {
     es6: true
   },
   extends: [
-    'react-hooks',
-    'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
     'prettier/@typescript-eslint'
   ],
-  plugins: ['@typescript-eslint', 'prettier', 'react'],
+  plugins: ['@typescript-eslint', 'prettier', 'react', 'react-hooks',],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     sourceType: 'module',
@@ -22,7 +20,7 @@ module.exports = {
   },
   rules: {
     'react-hooks/rules-of-hooks': 'error',
-    strict: true,
+    strict: 'error',
     'no-comma-dangle': false,
     'no-unused-vars': [1, { vars: 'all', args: 'after-used' }],
     'prettier/prettier': [
