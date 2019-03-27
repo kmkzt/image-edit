@@ -29,9 +29,10 @@ module.exports = {
     linkComponents: ['Hyperlink', { name: 'Link', linkAttribute: 'to' }]
   },
   rules: {
-    // react-config
+    // react-config -> https://github.com/yannickcr/eslint-plugin-react/
     'react/jsx-uses-react': 'error',
     'react/jsx-uses-vars': 'error',
+    'react/no-deprecated': 'error',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     strict: 'error',
