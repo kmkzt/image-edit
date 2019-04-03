@@ -32,7 +32,7 @@
     "npm-run-all": "4.1.5",
     "postcss-loader": "3.0.0",
     "prettier": "1.16.4",
-    "resolve-url-loader": "3.0.1",
+    "resolve-url-loader": "3.1.0",
     "rimraf": "2.6.3",
     "sass-loader": "7.1.0",
     "style-loader": "0.23.1",
