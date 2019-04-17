@@ -1,8 +1,12 @@
+const IN_BROWSER = typeof window !== 'undefined'
+const WINDOW: Window | object = IN_BROWSER ? window : {}
+const URL: Window['URL'] | undefined =
+  (WINDOW as Window).URL || (WINDOW as any).webkitURL
 export const createObjectURL = (file: File | Blob): string | null =>
-  window.URL ? window.URL.createObjectURL(file) : null
+  URL ? URL.createObjectURL(file) : null
 
 export const revokeObjectURL = (src: string) =>
-  window.URL ? window.URL.revokeObjectURL(src) : null
+  URL ? URL.revokeObjectURL(src) : null
 
 export const getRadian = (rotate: number): number => (rotate * Math.PI) / 180
 export const is90Deg = (rotate: number) => Math.abs(rotate) % 180 === 90
