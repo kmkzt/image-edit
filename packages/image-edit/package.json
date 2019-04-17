@@ -22,5 +22,6 @@
     "dev": "NODE_ENV=development webpack-dev-server",
     "build": "rimraf lib && rimraf types && NODE_ENV=production webpack -p",
     "test": "jest"
-  }
+  },
+  "devDependencies": {}
 }
