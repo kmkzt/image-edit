@@ -26,32 +26,16 @@ export async function loadImage(file: FileInfo): Promise<HTMLImageElement> {
 
 export async function loadFile(file: File | Blob): Promise<FileInfo> {
   return new Promise((resolve, reject) => {
-    let reader: FileReader | null = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = (e: ProgressEvent) => {
-      const mimeType: string = file.type
-      const url: string = createObjectURL(file) || (e.target as any).result
-      resolve({
-        name: (file as File).name || new Date().toISOString(),
-        url,
-        mimeType
-      })
-    }
-    reader.onabort = () =>
-      reject(new Error('Aborted to read the image with FileReader.'))
-    reader.onerror = () =>
-      reject(new Error('Failed to read the image with FileReader.'))
-    reader.onloadend = () => (reader = null)
-  })
-}
-
-export const loadFileWorker = (file: File | Blob): Promise<FileInfo> =>
-  new Promise((resolve, reject) => {
     const loadFileWorker = new Worker()
     loadFileWorker.postMessage({ file })
-    loadFileWorker.addEventListener('message', (event: any) => {
+    const returnFile = (event: any) => {
       if (!event.data) reject('failed load file.')
       resolve(event.data as FileInfo)
-    })
-    window.setTimeout(() => reject('failed load file.'), 10000)
+    }
+    loadFileWorker.addEventListener('message', returnFile)
+    window.setTimeout(() => {
+      loadFileWorker.removeEventListener('message', returnFile)
+      reject('failed load file.')
+    }, 10000)
   })
+}
