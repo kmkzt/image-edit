@@ -1,4 +1,5 @@
 import { createObjectURL } from '@/util'
+import Worker from 'worker-loader!./worker'
 
 export interface FileInfo {
   name: string
@@ -43,3 +44,14 @@ export async function loadFile(file: File | Blob): Promise<FileInfo> {
     reader.onloadend = () => (reader = null)
   })
 }
+
+export const loadFileWorker = (file: File | Blob): Promise<FileInfo> =>
+  new Promise((resolve, reject) => {
+    const loadFileWorker = new Worker()
+    loadFileWorker.postMessage({ file })
+    loadFileWorker.addEventListener('message', (event: any) => {
+      if (!event.data) reject('failed load file.')
+      resolve(event.data as FileInfo)
+    })
+    window.setTimeout(() => reject('failed load file.'), 10000)
+  })
