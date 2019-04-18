@@ -1,5 +1,5 @@
 import { createObjectURL } from '@/util'
-import Worker from 'worker-loader!./worker'
+import WorkerFileReader from 'worker-loader!./reader'
 
 export interface FileInfo {
   name: string
@@ -26,11 +26,19 @@ export async function loadImage(file: FileInfo): Promise<HTMLImageElement> {
 
 export async function loadFile(file: File | Blob): Promise<FileInfo> {
   return new Promise((resolve, reject) => {
-    const loadFileWorker = new Worker()
+    const loadFileWorker = new WorkerFileReader()
     loadFileWorker.postMessage({ file })
     const returnFile = (event: any) => {
-      if (!event.data) reject('failed load file.')
-      resolve(event.data as FileInfo)
+      const readerFile: File | Blob | undefined =
+        event.data && (event.data.file as File | Blob)
+      const url: string | undefined =
+        createObjectURL(readerFile) || (event.data && event.data.url)
+      if (!url) reject('failed load file.')
+      resolve({
+        name: (file as File).name || new Date().toISOString(),
+        url,
+        mimeType: file.type
+      } as FileInfo)
     }
     loadFileWorker.addEventListener('message', returnFile)
     window.setTimeout(() => {
