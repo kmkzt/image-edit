@@ -1,5 +1,3 @@
-import { FileInfo } from './load'
-
 self.onmessage = async (message: MessageEvent): Promise<void> => {
   try {
     const file = message.data.file as File | Blob
@@ -7,7 +5,8 @@ self.onmessage = async (message: MessageEvent): Promise<void> => {
     reader.readAsDataURL(file)
     reader.onload = (e: ProgressEvent) => {
       const url: string = (e.target as any).result
-      postMessage({ file, url })
+      const ctx: Worker = self as any
+      ctx.postMessage({ file, url })
     }
     reader.onabort = () => {
       throw 'Aborted to read the image with FileReader.'

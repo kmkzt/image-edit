@@ -1,5 +1,5 @@
 import { createObjectURL } from '@/util'
-import WorkerFileReader from 'worker-loader!./reader'
+const WorkerFileReader = require(/* webpackChunkName: "workerFileReader" */ 'worker-loader!./reader')
 
 export interface FileInfo {
   name: string
