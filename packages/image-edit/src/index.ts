@@ -4,6 +4,7 @@ import {
   createBlob,
   CreateBlobOption,
   FileInfo
+  // loadFileWorker
 } from './lib'
 
 export type EditOption = Partial<CreateBlobOption>

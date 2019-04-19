@@ -1,4 +1,5 @@
 import { createObjectURL } from '@/util'
+const WorkerFileReader = require(/* webpackChunkName: "workerFileReader" */ 'worker-loader!./reader')
 
 export interface FileInfo {
   name: string
@@ -25,21 +26,24 @@ export async function loadImage(file: FileInfo): Promise<HTMLImageElement> {
 
 export async function loadFile(file: File | Blob): Promise<FileInfo> {
   return new Promise((resolve, reject) => {
-    let reader: FileReader | null = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = (e: ProgressEvent) => {
-      const mimeType: string = file.type
-      const url: string = createObjectURL(file) || (e.target as any).result
+    const loadFileWorker = new WorkerFileReader()
+    loadFileWorker.postMessage({ file })
+    const returnFile = (event: any) => {
+      const readerFile: File | Blob | undefined =
+        event.data && (event.data.file as File | Blob)
+      const url: string | undefined =
+        createObjectURL(readerFile) || (event.data && event.data.url)
+      if (!url) reject('failed load file.')
       resolve({
         name: (file as File).name || new Date().toISOString(),
         url,
-        mimeType
-      })
+        mimeType: file.type
+      } as FileInfo)
     }
-    reader.onabort = () =>
-      reject(new Error('Aborted to read the image with FileReader.'))
-    reader.onerror = () =>
-      reject(new Error('Failed to read the image with FileReader.'))
-    reader.onloadend = () => (reader = null)
+    loadFileWorker.addEventListener('message', returnFile)
+    window.setTimeout(() => {
+      loadFileWorker.removeEventListener('message', returnFile)
+      reject('failed load file.')
+    }, 10000)
   })
 }
