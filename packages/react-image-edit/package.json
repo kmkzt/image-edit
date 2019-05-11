@@ -45,7 +45,7 @@
     "@typescript-eslint/parser": "1.4.2",
     "@typescript-eslint/typescript-estree": "1.4.2",
     "enzyme": "3.9.0",
-    "enzyme-adapter-react-16": "1.11.2",
+    "enzyme-adapter-react-16": "1.13.0",
     "enzyme-to-json": "3.3.5",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "1.5.1",
