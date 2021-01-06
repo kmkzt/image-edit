@@ -27,8 +27,8 @@
     "lint:fix": "prettier --write ./src/**/*.{ts,tsx}"
   },
   "dependencies": {
-    "react": "16.8.4",
-    "react-dom": "16.8.4",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
     "styled-components": "4.2.0"
   },
   "peerDependencies": {
@@ -48,7 +48,7 @@
     "enzyme-adapter-react-16": "1.13.0",
     "enzyme-to-json": "3.3.5",
     "eslint-plugin-react": "^7.12.4",
-    "eslint-plugin-react-hooks": "1.6.0",
+    "eslint-plugin-react-hooks": "1.6.1",
     "jest-styled-components": "6.3.1",
     "typescript-styled-plugin": "0.14.0"
   }
